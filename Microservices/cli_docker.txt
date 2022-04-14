@@ -1,0 +1,17 @@
+1- build and run docker image =>
+docker build -t amircsharp/platformservice .
+
+2- run docker image =>
+docker run -p 8080:80 amircsharp/platformservice
+
+3- show running docker containers =>
+docker ps
+
+4- stop docker by Id =>
+docker stop 2a7ade961689
+
+5- start docker by Id =>
+docker start 2a7ade961689
+
+6- push image =>
+docker push amircsharp/platformservice

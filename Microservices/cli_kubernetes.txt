@@ -1,0 +1,36 @@
+1- Version =>
+kubectl version
+
+2- apply deployment setting =>
+kubectl apply -f platforms-depl.yaml
+
+3- list of deployments =>
+kubectl get deployments
+
+4- get list of pods =>
+kubectl get pods
+
+4- get list of services =>
+kubectl get services
+
+5 delete =>
+kubectl delete deployments my-dep
+
+6- refresh deployment
+kubectl rollout restart deployment platforms-depl
+
+7- get Namesapce
+kubectl get namespace
+
+8- get pods in specefic namespace
+kubectl get pods --namespace=ingress-nginx
+
+9- ingress nginx
+https://kubernetes.github.io/ingress-nginx/
+kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.1.1/deploy/static/provider/cloud/deploy.yaml
+
+10- restart in specefic namespace
+kubectl rollout restart deployment/ingress-nginx-controller -n ingress-nginx
+
+11- remove admin permition for apply nginx:
+kubectl delete -A ValidatingWebhookConfiguration ingress-nginx-admission
