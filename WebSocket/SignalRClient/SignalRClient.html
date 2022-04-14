@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SignalR Javascript Client</title>
+</head>
+
+<body>
+    <h1>SignalR Javascript Client</h1>
+    <p id="stateLabel">Ready to connect</p>
+    <p id="connIDLabel"> ConnID: N/a</p>
+    <div>
+        <label for="connectionUrl">SignalR Server Url: </label>
+        <input id="connectionUrl" type="text">
+        <button id="connectButton" type="submit">connect</button>
+        <button id="closeButton" type="submit" disabled>close Socket</button>
+    </div>
+    <p></p>
+    <div>
+        <label for="sendMessage">Message: </label>
+        <input id="sendMessage" type="text" disabled>
+        <button id="sendButton" type="submit" disabled>Send</button>
+    </div>
+    <p></p>
+    <div>
+        <label for="recipents">Recipents ID:</label>
+        <input type="text" id="recipents">
+    </div>
+    <p></p>
+    <h2>Communication Log</h2>
+    <table>
+        <thead>
+            <tr>
+                <th style="width: 100px;">From</th>
+                <th style="width: 100px;">To</th>
+                <th>Data</th>
+            </tr>
+        </thead>
+        <tbody id="commsLog">
+
+        </tbody>
+    </table>
+    <p></p>
+    <script src="signalR.js"></script>
+    <script>
+        var connectionUrl = document.getElementById("connectionUrl")
+        var connectButton = document.getElementById("connectButton")
+        var stateLabel = document.getElementById("stateLabel")
+        var sendMessage = document.getElementById("sendMessage")
+        var sendButton = document.getElementById("sendButton")
+        var commsLog = document.getElementById("commsLog")
+        var closeButton = document.getElementById("closeButton")
+        var recipents = document.getElementById("recipents")
+        var conID = document.getElementById("connIDLabel")
+
+        connectionUrl.value = "http://localhost:5001/chatHub"
+
+        const hubConnection = new signalR.HubConnectionBuilder()
+    .withUrl(connectionUrl.value)
+    .configureLogging(signalR.LogLevel.Information)
+    .build();
+
+        connectButton.onclick = function () {
+            stateLabel.innerHTML = "Attempting To connect..."
+            hubConnection.start().then(function(){
+                updateState();
+                commsLog.innerHTML += '<tr>' +
+                    '<td colspan="3">Connection opened</td>' +
+                    '</tr>'
+            })
+
+            hubConnection.onclose(function(event){
+                updateState();
+                commsLog.innerHTML += '<tr>' +
+                    '<td colspan="3">Connection closed</td>' +
+                    '</tr>'
+            })
+        }
+		
+		closeButton.onclick = function(){
+			if(!hubConnection || hubConnection.state !== "Connected"){
+                alert("WebSocket already closed.")
+            }
+            hubConnection.stop().then(function(){
+
+            })
+		}
+        
+        sendButton.onclick = function(){
+            if(!hubConnection || hubConnection.state !== "Connected"){
+                alert("WebSocket already closed.")
+            }
+
+            var data = constructJson();
+            hubConnection.invoke("SendMessageAsync",data)
+            commsLog.innerHTML += '<tr>' +
+                    '<td>Server</td>' +
+                    '<td>Client</td>' +
+                    '<td> ' + htmlEscape(data) + '</td>' +
+                    '</tr>'
+        }
+        hubConnection.on("ReceiveConnID",function(connid){
+            conID.innerHTML  = "ConnId: " + connid
+        })
+        hubConnection.on("ReceiveMessage",function(message){
+            commsLog.innerHTML += '<tr>' +
+                    '<td>Server</td>' +
+                    '<td>Client</td>' +
+                    '<td> ' + htmlEscape(message) + '</td>' +
+                    '</tr>'
+        })
+        function constructJson(){
+            return JSON.stringify({
+                "From": conID.innerHTML.substring(8, 45),
+                "To": recipents.value,
+                "Message": sendMessage.value,
+            })
+        }
+        function updateState() {
+            function disable() {
+                sendMessage.disabled = true;
+                sendButton.disabled = true;
+                closeButton.disabled = true;
+                recipents.disabled = true;
+            }
+            function enable() {
+                sendMessage.disabled = false;
+                sendButton.disabled = false;
+                closeButton.disabled = false;
+                recipents.disabled = false;
+            }
+
+            connectionUrl.disabled = true;
+            connectButton.disabled = true;
+            if (!hubConnection || hubConnection.state !== "Connected") {
+                disable();
+            }
+            else {
+                switch (hubConnection.state) {
+                    case "Disconnected":
+                        stateLabel.innerHTML = "closed"
+                        conID.innerHTML = "connID: N/a"
+                        disable()
+                        connectionUrl.disabled = false
+                        connectButton.disabled = false
+                        break;
+                    case "Connecting":
+                        stateLabel.innerHTML = "Connecting..."
+                        disable()
+                        break;
+                    case "Connected":
+                        stateLabel.innerHTML = "Connected"
+                        enable()
+                        break;
+
+                    default:
+                    stateLabel.innerHTML = "unknown WebSocket State: " + htmlEscape(socket.readyState)
+                        break;
+                }
+            }
+        }
+
+        function htmlEscape(str) {
+            return str.toString()
+                .replace(/&/g, '&amp;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#39;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+        }
+    </script>
+</body>
+
+</html>
