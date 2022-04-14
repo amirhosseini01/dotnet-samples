@@ -1,0 +1,32 @@
+--------------------------------------------
+-----------create certificate---------------
+--------------------------------------------
+1-
+$cert = New-SelfSignedCertificate -certstorelocation cert:\localmachine\my -dns wather.io
+
+2-
+$cert
+
+3-
+$pwd = ConvertTo-SecureString -String "{yourpass}" -Force -AsPlainText
+
+4-
+$certpath = "Cert:\localmachine\my\$($cert.Thumbprint)"
+
+5-
+$certpath
+
+6- !!(customize your dirver path) !!
+Export-PfxCertificate -Cert $certpath -FilePath d:\weather.pfx -Password $pwd
+
+
+
+
+--------------------------------------------
+---------------dotnet secret ---------------
+--------------------------------------------
+1-
+dotnet user-secrets set "{YourParam}"  "{YourVal}"
+
+2- where secrets are saved:
+c => users => your pc name => appdata => roaming => microsoft => userSecrets
