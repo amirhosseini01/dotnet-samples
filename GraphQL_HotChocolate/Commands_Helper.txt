@@ -4,3 +4,13 @@ HotChocolate.AspNetCore
 HotChocolate.Data.EntityFramework
 Microsoft.EntityFrameworkCore.Design
 Microsoft.EntityFrameworkCore.SqlServer
+
+// *** Docker Commands ***
+
+1- Pull and run image :  docker-compose up -d
+
+2- to connect to your instace, just enter => 
+[ localhost,1433 ] as connection string and [sa] as userId and [pa55w0rd!] as password,
+these are specified in [docker-compose.yaml] file.
+
+3- stop compose: docker-compose stop
