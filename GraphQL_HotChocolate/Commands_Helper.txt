@@ -1,0 +1,6 @@
+// *** Nuget Packages ***
+GraphQL.Server.Ui.Voyager
+HotChocolate.AspNetCore
+HotChocolate.Data.EntityFramework
+Microsoft.EntityFrameworkCore.Design
+Microsoft.EntityFrameworkCore.SqlServer
