@@ -22,3 +22,5 @@ dotnet tool update --global dotnet-ef
 
 2-
 dotnet ef migrations add {Your migration name}
+3-
+dotnet ef database update
