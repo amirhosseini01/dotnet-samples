@@ -14,3 +14,7 @@ Microsoft.EntityFrameworkCore.SqlServer
 these are specified in [docker-compose.yaml] file.
 
 3- stop compose: docker-compose stop
+
+// *** Dotnet EF ***
+1-
+dotnet tool install --global dotnet ef
