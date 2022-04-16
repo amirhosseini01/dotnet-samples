@@ -17,4 +17,5 @@ these are specified in [docker-compose.yaml] file.
 
 // *** Dotnet EF ***
 1-
-dotnet tool install --global dotnet ef
+dotnet tool install --global dotnet-ef
+dotnet tool update --global dotnet-ef
