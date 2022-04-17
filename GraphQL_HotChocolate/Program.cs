@@ -13,9 +13,6 @@ builder.Services.AddGraphQLServer()
 
 var app = builder.Build();
 
-app.MapGet("/", () => "Hello World!");
-app.UseEndpoints(endpoints =>
-    endpoints.MapGraphQL()
-);
+app.MapGraphQL();
 
 app.Run();
