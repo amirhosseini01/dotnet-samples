@@ -1,3 +1,4 @@
+using GraphQL.Server.Ui.Voyager;
 using GraphQL_HotChocolate.Data;
 using GraphQL_HotChocolate.GraphQL;
 using Microsoft.EntityFrameworkCore;
@@ -14,5 +15,8 @@ builder.Services.AddGraphQLServer()
 var app = builder.Build();
 
 app.MapGraphQL();
+app.UseGraphQLVoyager(options: new VoyagerOptions(){
+    GraphQLEndPoint = "/graphql"
+}, path: "/graphql-voyager");
 
 app.Run();
