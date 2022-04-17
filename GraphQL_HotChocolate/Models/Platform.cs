@@ -8,4 +8,5 @@ namespace GraphQL_HotChocolate.Models;
         [Required]
         public string Name { get; set; }
         public string LicenseKey { get; set; }
+        public virtual ICollection<Command> Commands { get; set; }
     }
