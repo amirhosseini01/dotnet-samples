@@ -24,3 +24,9 @@ dotnet tool update --global dotnet-ef
 dotnet ef migrations add {Your migration name}
 3-
 dotnet ef database update
+
+// *** GraphQL Panels ***
+1-
+https://localhost:7153/graphql/
+2-
+https://localhost:7153/graphql-voyager
