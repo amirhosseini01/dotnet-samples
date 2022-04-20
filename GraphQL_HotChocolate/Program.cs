@@ -1,7 +1,7 @@
-using System.Data;
 using GraphQL.Server.Ui.Voyager;
 using GraphQL_HotChocolate.Data;
 using GraphQL_HotChocolate.GraphQL;
+using GraphQL_HotChocolate.GraphQL.Commands;
 using GraphQL_HotChocolate.GraphQL.Platforms;
 using Microsoft.EntityFrameworkCore;
 
