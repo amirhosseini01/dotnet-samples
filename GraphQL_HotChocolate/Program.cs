@@ -1,3 +1,4 @@
+using System.Data;
 using GraphQL.Server.Ui.Voyager;
 using GraphQL_HotChocolate.Data;
 using GraphQL_HotChocolate.GraphQL;
@@ -13,6 +14,7 @@ builder.Services.AddPooledDbContextFactory<AppDbContext>(opt => opt.UseSqlServer
 builder.Services.AddGraphQLServer()
 .AddQueryType<Query>()
 .AddType<PlatformType>()
+.AddType<CommandType>()
 .AddProjections();
 
 var app = builder.Build();
