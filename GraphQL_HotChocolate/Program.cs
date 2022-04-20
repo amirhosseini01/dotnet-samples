@@ -15,6 +15,8 @@ builder.Services.AddGraphQLServer()
 .AddQueryType<Query>()
 .AddType<PlatformType>()
 .AddType<CommandType>()
+.AddFiltering()
+.AddSorting()
 .AddProjections();
 
 var app = builder.Build();
