@@ -1,0 +1,31 @@
+query{
+	a:command(where: {platformId: {eq: 3}}, order: {howTo: ASC}){
+		howTo
+		commandLine
+	}
+	b:command(order: {platformId: ASC}){
+		platformId
+		howTo
+	},
+	c:command{
+		id
+		platformId
+		howTo
+		commandLine
+		platform{
+			name
+		}
+	}
+	d:platform{
+		id
+		name
+	}
+	e:platform{
+		id
+		name
+		commands{
+			howTo
+			commandLine
+		}
+	}
+}
