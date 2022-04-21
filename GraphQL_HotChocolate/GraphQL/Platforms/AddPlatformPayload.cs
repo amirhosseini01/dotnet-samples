@@ -1,3 +1,5 @@
+using GraphQL_HotChocolate.Models;
+
 namespace GraphQL_HotChocolate.GraphQL.Platforms;
 
-public record AddPlatformPayload(string Name);
+public record AddPlatformPayload(Platform Platform);
