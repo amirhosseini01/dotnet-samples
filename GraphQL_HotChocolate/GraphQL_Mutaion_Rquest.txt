@@ -1,8 +1,22 @@
+// **************** Add Platform
 mutation{
 	addPlatform(input: {name: "Ubuntu"}){
 		platform{
 			id
 			name
+		}
+	}
+}
+
+
+// **************** Add Command
+mutation{
+	addCommand(input: {howTo: "Directory Listing", commandLine: "ls", platformId: 5}){
+		command{
+			id
+			platformId
+			howTo
+			commandLine
 		}
 	}
 }
