@@ -1,0 +1,8 @@
+mutation{
+	addPlatform(input: {name: "Ubuntu"}){
+		platform{
+			id
+			name
+		}
+	}
+}
