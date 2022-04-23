@@ -22,6 +22,8 @@ builder.Services.AddGraphQLServer()
 
 var app = builder.Build();
 
+app.UseWebSockets();
+
 app.MapGraphQL();
 app.UseGraphQLVoyager(options: new VoyagerOptions(){
     GraphQLEndPoint = "/graphql"
