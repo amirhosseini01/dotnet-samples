@@ -2,20 +2,26 @@ using GraphQL_HotChocolate.Data;
 using GraphQL_HotChocolate.GraphQL.Commands;
 using GraphQL_HotChocolate.GraphQL.Platforms;
 using GraphQL_HotChocolate.Models;
+using HotChocolate.Subscriptions;
 
 namespace GraphQL_HotChocolate.GraphQL;
 public class Mutation
 {
     [UseDbContext(typeof(AppDbContext))]
-    public async Task<AddPlatformPayload> AddPlatformAsync(AddPlatformInput input, [ScopedService] AppDbContext context)
+    public async Task<AddPlatformPayload> AddPlatformAsync(AddPlatformInput input,
+     [ScopedService] AppDbContext context,
+     [Service] ITopicEventSender topicEventSender,
+     CancellationToken cancellationToken)
     {
         var platform = new Platform()
         {
             Name = input.Name
         };
 
-        await context.Platforms.AddAsync(platform);
-        await context.SaveChangesAsync();
+        await context.Platforms.AddAsync(platform, cancellationToken);
+        await context.SaveChangesAsync(cancellationToken);
+
+        await topicEventSender.SendAsync(nameof(Subscription.OnPlatformAdded), platform, cancellationToken);
 
         return new AddPlatformPayload(platform);
     }
