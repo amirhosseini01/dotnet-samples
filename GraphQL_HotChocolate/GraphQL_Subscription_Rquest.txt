@@ -1,0 +1,6 @@
+subscription{
+  onPlatformAdded {
+    id
+    name
+  }
+}
