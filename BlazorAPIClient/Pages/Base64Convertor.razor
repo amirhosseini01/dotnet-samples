@@ -4,7 +4,8 @@
 <h1>Base 64 Convertor</h1>
 
 <div class="form-group">
-    <textarea class="form-control col-md-6" placeholder="None Base64" @bind-value="NoneBase64Body" @bind-value:event="oninput"></textarea>
+    <textarea class="form-control col-md-6" placeholder="None Base64" @bind-value="NoneBase64Body"
+        @bind-value:event="oninput"></textarea>
     <small class="form-text text-muted">This is the value you want to encode as base64</small>
 </div>
 
@@ -17,23 +18,24 @@
 </button>
 
 <div class="form-group mt-2">
-    <textarea class="form-control col-md-6" placeholder="Base64" @bind-value="Base64Body" @bind-value:event="oninput"></textarea>
+    <textarea class="form-control col-md-6" placeholder="Base64" @bind-value="Base64Body"
+        @bind-value:event="oninput"></textarea>
     <small class="form-text text-muted">This is the value you want to encode from base64</small>
 </div>
 
-@code{
+@code {
     public string NoneBase64Body { get; set; }
     public string Base64Body { get; set; }
 
     private void ConvertFromBase64()
     {
-        var plainTextByte = Encoding.UTF8.GetBytes(NoneBase64Body);
-        Base64Body = Convert.ToBase64String(plainTextByte);
+        var base64EncodedBytes = Convert.FromBase64String(Base64Body);
+        NoneBase64Body = Encoding.UTF8.GetString(base64EncodedBytes);
     }
 
     private void ConvertToBase64()
     {
-        var base64EncodedBytes = Convert.FromBase64String(Base64Body);
-        NoneBase64Body = Encoding.UTF8.GetString(base64EncodedBytes);
+        var plainTextByte = Encoding.UTF8.GetBytes(NoneBase64Body);
+        Base64Body = Convert.ToBase64String(plainTextByte);
     }
 }
