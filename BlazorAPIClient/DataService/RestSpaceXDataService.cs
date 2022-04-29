@@ -16,6 +16,6 @@ public class RestSpaceXDataService : ISpaceXDataService
     public async Task<LaunchDto[]> GetLaunches()
     {
         return await _httpClient.GetFromJsonAsync<LaunchDto[]>(
-            "/rest");
+            "/rest/launches");
     }
 }
