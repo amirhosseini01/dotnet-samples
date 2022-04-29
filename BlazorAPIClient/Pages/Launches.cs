@@ -7,7 +7,7 @@ public partial class Launches
 {
     [Inject]
     private ISpaceXDataService SpaceXDataService { get; set; }
-    private IList<LaunchDto> launches;
+    private LaunchDto[] launches;
 
     protected override async Task OnInitializedAsync()
     {
