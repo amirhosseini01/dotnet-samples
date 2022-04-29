@@ -11,7 +11,7 @@ public class RestSpaceXDataService : ISpaceXDataService
         _clientFactory = clientFactory;
         _configuration = configuration;
     }
-    public async Task<IEnumerable<LaunchDto>> GetLaunches()
+    public async Task<IList<LaunchDto>> GetLaunches()
     {
          var request = new HttpRequestMessage(HttpMethod.Get,
              _configuration.GetSection("apiBaseUrl").Value + "/rest/launches");
@@ -24,7 +24,7 @@ public class RestSpaceXDataService : ISpaceXDataService
         {
             using var responseStream = await response.Content.ReadAsStreamAsync();
             return  await JsonSerializer.DeserializeAsync
-                <IEnumerable<LaunchDto>>(responseStream);
+                <IList<LaunchDto>>(responseStream);
         }
         else
         {
