@@ -15,7 +15,7 @@ namespace BlazorAPIClient.Pages
         protected override async Task OnInitializedAsync()
         {
             launches = await Http.GetFromJsonAsync<LaunchDto[]>(
-                Configuration.GetSection("apiBaseUrl").Value + "rest/launches");
+                Configuration.GetSection("apiBaseUrl").Value + "/rest/launches");
         }
     }
 }
