@@ -8,6 +8,6 @@ builder.RootComponents.Add<App>("#app");
 builder.RootComponents.Add<HeadOutlet>("head::after");
 
 builder.Services.AddScoped<ISpaceXDataService, RestSpaceXDataService>();
-builder.Services.AddScoped<HttpClient>();
+builder.Services.AddHttpClient();
 
 await builder.Build().RunAsync();
