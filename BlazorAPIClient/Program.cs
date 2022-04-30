@@ -8,6 +8,8 @@ builder.RootComponents.Add<App>("#app");
 builder.RootComponents.Add<HeadOutlet>("head::after");
 
 builder.Services.AddHttpClient();
-builder.Services.AddHttpClient<ISpaceXDataService, RestSpaceXDataService>();
+
+// builder.Services.AddHttpClient<ISpaceXDataService, RestSpaceXDataService>();
+builder.Services.AddHttpClient<ISpaceXDataService, GraphQLSpaceXDataService>();
 
 await builder.Build().RunAsync();
