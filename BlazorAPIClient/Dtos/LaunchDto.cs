@@ -2,6 +2,16 @@ using System.Text.Json.Serialization;
 
 namespace BlazorAPIClient.Dtos;
 
+public class GqlParentData
+{
+    [JsonPropertyName("data")]
+    public GqlData Data { get; set; }
+}
+public class GqlData
+{
+    [JsonPropertyName("launches")]
+    public LaunchDto[] Launches { get; set; }
+}
 public class LaunchDto
 {
     [JsonPropertyName("id")]
