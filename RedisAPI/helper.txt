@@ -1,14 +1,28 @@
 *** Docker ***
 
 - docker compose up (pull and run image):
-docker compose up -d 
+    docker compose up -d 
+
 - list of running containers:
-docker ps
+    docker ps
+
 - stop containers
-docker compose stop
+    docker compose stop
+
 - totaly remove container:
-docker compose down
+    docker compose down
 
-
+- enable redis-cli localy:
+    docker exec -it <running-container-id> /bin/bash
 
 *** Dedis CLI ***
+- enable redis-cli localy:
+    docker exec -it <running-container-id> /bin/bash
+    redis-cli
+    ping
+
+- Strings:
+    set Key Value(set platform:10010 Docker)
+    get Key(get platform:10010)
+    del Key(del platform:10010)
+        
