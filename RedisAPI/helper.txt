@@ -1,0 +1,14 @@
+*** Docker ***
+
+- docker compose up (pull and run image):
+docker compose up -d 
+- list of running containers:
+docker ps
+- stop containers
+docker compose stop
+- totaly remove container:
+docker compose down
+
+
+
+*** Dedis CLI ***
