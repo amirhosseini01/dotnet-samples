@@ -25,4 +25,8 @@
     set Key Value(set platform:10010 Docker)
     get Key(get platform:10010)
     del Key(del platform:10010)
-        
+
+- exit from redis: exit
+
+*** Packages ***
+dotnet add package Microsoft.Extensions.Caching.StackExchangeRedis
