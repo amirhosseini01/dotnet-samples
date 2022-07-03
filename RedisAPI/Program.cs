@@ -1,4 +1,11 @@
+
+using StackExchange.Redis;
+
 var builder = WebApplication.CreateBuilder(args);
+
+// namspace: StackExchange.Redis
+builder.Services.AddSingleton<IConnectionMultiplexer>(opt => 
+ConnectionMultiplexer.Connect(builder.Configuration.GetConnectionString("RedisConnection")));
 
 // Add services to the container.
 
