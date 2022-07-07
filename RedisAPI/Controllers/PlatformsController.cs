@@ -14,7 +14,7 @@ public class PlatformsController : ControllerBase
         _platformRepo = platformRepo;
     }
 
-    [HttpGet("{id}")]
+    [HttpGet("{id}", Name ="Get")]
     public async Task<ActionResult<Platform>> Get(string id)
     {
         var plat = await _platformRepo.GetById(id);
