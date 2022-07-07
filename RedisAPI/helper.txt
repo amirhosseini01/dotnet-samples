@@ -25,6 +25,8 @@
     set Key Value(set platform:10010 Docker)
     get Key(get platform:10010)
     del Key(del platform:10010)
+- List:
+    scan <your instanse number>: scan 0
 
 - exit from redis: exit
 
