@@ -1,11 +1,14 @@
 
+using RedisAPI.Data;
 using StackExchange.Redis;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // namspace: StackExchange.Redis
-builder.Services.AddSingleton<IConnectionMultiplexer>(opt => 
+builder.Services.AddSingleton<IConnectionMultiplexer>(opt =>
 ConnectionMultiplexer.Connect(builder.Configuration.GetConnectionString("RedisConnection")));
+
+builder.Services.AddScoped<IPlatformRepo, PlatformRedisRepo>();
 
 // Add services to the container.
 

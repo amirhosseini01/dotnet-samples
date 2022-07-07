@@ -1,3 +1,4 @@
+using System.Text.Json;
 using RedisAPI.Models;
 using StackExchange.Redis;
 
@@ -9,11 +10,20 @@ public class PlatformRedisRepo : IPlatformRepo
         _connectionMultiplexer = connectionMultiplexer;
     }
 
-    public IConnectionMultiplexer _connectionMultiplexer { get; }
+    private readonly IConnectionMultiplexer _connectionMultiplexer;
 
-    public Task Create(Platform platform)
+    public async Task Create(Platform platform)
     {
-        throw new NotImplementedException();
+        if (platform is null)
+        {
+            throw new ArgumentNullException(nameof(platform));
+        }
+
+        var db = _connectionMultiplexer.GetDatabase();
+
+        string platStr = JsonSerializer.Serialize(platform);
+
+        await db.StringSetAsync(platform.Id, platStr);
     }
 
     public IEnumerable<Platform> GetAll()
@@ -21,8 +31,17 @@ public class PlatformRedisRepo : IPlatformRepo
         throw new NotImplementedException();
     }
 
-    public Task<Platform> GetById(string id)
+    public async Task<Platform?> GetById(string id)
     {
-        throw new NotImplementedException();
+        var db = _connectionMultiplexer.GetDatabase();
+
+        var platStr = await db.StringGetAsync(id);
+
+        if(!string.IsNullOrEmpty(platStr))
+        {
+            return JsonSerializer.Deserialize<Platform>(platStr);
+        }
+
+        return null;
     }
 }
