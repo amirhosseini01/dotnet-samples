@@ -5,6 +5,7 @@ using StackExchange.Redis;
 namespace RedisAPI.Data;
 public class PlatformRedisRepo : IPlatformRepo
 {
+    public const string hashKey = "hashPlatform";
     public PlatformRedisRepo(IConnectionMultiplexer connectionMultiplexer)
     {
         _connectionMultiplexer = connectionMultiplexer;
@@ -22,22 +23,39 @@ public class PlatformRedisRepo : IPlatformRepo
         var db = _connectionMultiplexer.GetDatabase();
 
         string platStr = JsonSerializer.Serialize(platform);
+        // await db.StringSetAsync(platform.Id, platStr);
 
-        await db.StringSetAsync(platform.Id, platStr);
+        await db.HashSetAsync(hashKey, new HashEntry[]
+        {new HashEntry(platform.Id, platStr)});
     }
 
-    public IEnumerable<Platform> GetAll()
+    public async Task<IEnumerable<Platform?>?> GetAll()
     {
-        throw new NotImplementedException();
+        var db = _connectionMultiplexer.GetDatabase();
+
+        var completeHash = await db.HashGetAllAsync(hashKey);
+
+        if (completeHash.Length > 0)
+        {
+            var obj = Array.ConvertAll(
+                completeHash,
+                val => JsonSerializer.Deserialize<Platform>(val.Value)
+            ).ToList();
+
+            return obj;
+        }
+
+        return null;
     }
 
     public async Task<Platform?> GetById(string id)
     {
         var db = _connectionMultiplexer.GetDatabase();
 
-        var platStr = await db.StringGetAsync(id);
+        // var platStr = await db.StringGetAsync(id);
+        var platStr = await db.HashGetAsync(hashKey, id);
 
-        if(!string.IsNullOrEmpty(platStr))
+        if (!string.IsNullOrEmpty(platStr))
         {
             return JsonSerializer.Deserialize<Platform>(platStr);
         }

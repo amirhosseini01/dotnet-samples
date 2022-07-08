@@ -6,5 +6,5 @@ public interface IPlatformRepo
 {
     Task Create(Platform platform);
     Task<Platform?> GetById(string id);
-    IEnumerable<Platform> GetAll();
+    Task<IEnumerable<Platform?>?> GetAll();
 }
