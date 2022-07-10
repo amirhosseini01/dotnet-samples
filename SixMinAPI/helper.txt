@@ -1,0 +1,8 @@
+- new dotnet minimal api proj:
+    dotnet new webapi -minimal -n SixMinAPI
+
+- packages:
+    dotnet add package Microsoft.EntityFrameworkCore
+    dotnet add package Microsoft.EntityFrameworkCore.Design
+    dotnet add package Microsoft.EntityFrameworkCore.SqlServer
+    dotnet add package AutoMapper.Extensions.Microsoft.DependencyInjection
