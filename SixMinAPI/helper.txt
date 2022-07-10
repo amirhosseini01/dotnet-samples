@@ -9,3 +9,6 @@
 
 - user secrets:
     dotnet user-secrets init
+
+- docker:
+    docker-compose up -d
