@@ -14,3 +14,7 @@
 
 - docker:
     docker-compose up -d
+
+- dotnet ef:
+    dotnet ef migrations add initialMigration
+    dotnet ef database update
