@@ -9,6 +9,8 @@
 
 - user secrets:
     dotnet user-secrets init
+    dotnet user-secrets set "UserId" "sa"
+    dotnet user-secrets set "Password" "Pa55word!"
 
 - docker:
     docker-compose up -d
