@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace SixMiniAPI.Dtos;
+namespace SixMinAPI.Dtos;
 
 public class CommandUpdateDto
 {

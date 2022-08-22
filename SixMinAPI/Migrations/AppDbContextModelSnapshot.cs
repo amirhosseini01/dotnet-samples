@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using SixMiniAPI.Data;
+using SixMinAPI.Data;
 
 #nullable disable
 
@@ -21,7 +21,7 @@ namespace SixMinAPI.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
-            modelBuilder.Entity("SixMiniAPI.Models.Command", b =>
+            modelBuilder.Entity("SixMinAPI.Models.Command", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()

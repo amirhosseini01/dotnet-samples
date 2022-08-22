@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace SixMiniAPI.Models;
+namespace SixMinAPI.Models;
 
 
 public class Command

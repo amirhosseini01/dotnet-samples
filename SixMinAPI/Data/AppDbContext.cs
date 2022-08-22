@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
-using SixMiniAPI.Models;
+using SixMinAPI.Models;
 
-namespace SixMiniAPI.Data;
+namespace SixMinAPI.Data;
 
 public class AppDbContext : DbContext
 {
