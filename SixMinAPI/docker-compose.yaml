@@ -1,7 +1,7 @@
 version: '3.8'
 services:
   sqlserver:
-    image: "mcr.microsoft.com/mssql/server:2019-latest"
+    image: "mcr.microsoft.com/mssql/server"
     environment:
       ACCEPT_EULA: "Y"
       SA_PASSWORD: "pa55w0rd!"
