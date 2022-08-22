@@ -18,6 +18,9 @@ builder.Services.AddDbContext<AppDbContext>(opt => opt.UseSqlServer(sqlServerBui
 // DI services
 builder.Services.AddScoped<CommandRepo>();
 
+// auto mapper
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
