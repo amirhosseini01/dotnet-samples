@@ -16,9 +16,9 @@ public class CommandRepo
         await _context.SaveChangesAsync();
     }
 
-    public async Task<Command> GetAsync(int id)
+    public async Task<Command?> GetAsync(int id)
     {
-        return await _context.Commands.FirstAsync(x=>x.Id == id);
+        return await _context.Commands.FirstOrDefaultAsync(x=>x.Id == id);
     }
     public async Task<IList<Command>> GetAsync()
     {

@@ -2,6 +2,7 @@ using AutoMapper;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using SixMinAPI.Data;
+using SixMinAPI.Dtos;
 using SixMinAPI.Models;
 using SixMinAPI.Repositories;
 
@@ -48,7 +49,56 @@ app.UseCors("AllowAnyOrigin");
 app.MapGet("api/v1/commands", async (CommandRepo repo, IMapper mapper) =>
 {
     var commands = await repo.GetAsync();
-    return Results.Ok(mapper.Map<IList<Command>>(commands));
+    return Results.Ok(mapper.Map<IList<CommandReadDto>>(commands));
+});
+
+app.MapGet("api/v1/commands/{id}", async (CommandRepo repo, IMapper mapper, int id) =>
+{
+    var command = await repo.GetAsync(id);
+
+    if (command is null)
+        return Results.NotFound();
+
+    return Results.Ok(mapper.Map<CommandReadDto>(command));
+});
+
+app.MapPost("api/v1/commands", async (CommandRepo repo, IMapper mapper, CommandCreateDto dto) =>
+{
+    var entity = mapper.Map<Command>(dto);
+
+    await repo.AddAsync(entity);
+    await repo.SaveChanges();
+
+    var obj = mapper.Map<CommandReadDto>(entity);
+
+    return Results.Created($"api/v1/commands/{obj.Id}", obj);
+});
+
+app.MapPut("api/v1/commands/{id}", async
+(CommandRepo repo, IMapper mapper, int id, CommandUpdateDto dto) =>
+{
+    var entity = await repo.GetAsync(id);
+    if (entity is null)
+        return Results.NotFound();
+
+    mapper.Map(dto, entity);
+
+    await repo.SaveChanges();
+
+    return Results.NoContent();
+});
+
+app.MapDelete("api/v1/commands/{id}", async
+(CommandRepo repo, int id) =>
+{
+    var entity = await repo.GetAsync(id);
+    if (entity is null)
+        return Results.NotFound();
+
+    repo.Remove(entity);
+    await repo.SaveChanges();
+
+    return Results.NoContent();
 });
 
 app.Run();
