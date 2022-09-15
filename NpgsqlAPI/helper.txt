@@ -1,2 +1,7 @@
 packages
     Npgsql.EntityFrameworkCore.PostgreSQL
+    Microsoft.EntityFrameworkCore.Design
+
+migration commands
+    dotnet ef migrations add Init
+    dotnet ef database update
