@@ -14,7 +14,7 @@ builder.Services.AddSwaggerGen();
 string connectionString = builder.Configuration.GetConnectionString("BloggingContext")!;
 
 builder.Services.AddDbContext<BloggingContext>(options =>
-        options.UseNpgsql());
+        options.UseNpgsql(connectionString));
 
 builder.Services.AddTransient<IDbConnection>(_ => new NpgsqlConnection(connectionString));
 

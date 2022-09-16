@@ -4,7 +4,7 @@ services:
 
   db:
     image: postgres
-    container_name: postgresSql
+    container_name: db
     restart: always
     environment:
       POSTGRES_PASSWORD: postgres
@@ -20,6 +20,21 @@ services:
     restart: always
     ports:
       - 8080:8080
+  
+  pgadmin4:
+    image: dpage/pgadmin4
+    restart: always
+    environment:
+      PGADMIN_DEFAULT_EMAIL: pgadmin4@pgadmin.org
+      PGADMIN_DEFAULT_PASSWORD: admin
+      PGADMIN_CONFIG_SERVER_MODE: 'False'
+    ports:
+      - 5050:80
+    volumes:
+      - pgadmin:/var/lib/pgadmin
+    depends_on:
+      - db
 
 volumes:
   postgres_data:
+  pgadmin:
