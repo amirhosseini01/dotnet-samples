@@ -1,4 +1,8 @@
+using System.Data;
+using System.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
+using Npgsql;
+using NpgsqlAPI.API;
 using NpgsqlAPI.Data;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -6,12 +10,17 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+string connectionString = builder.Configuration.GetConnectionString("BloggingContext")!;
+
 builder.Services.AddDbContext<BloggingContext>(options =>
-        options.UseNpgsql(builder.Configuration.GetConnectionString("BloggingContext")!));
+        options.UseNpgsql());
+
+builder.Services.AddTransient<IDbConnection>(_ => new NpgsqlConnection(connectionString));
+
+builder.Services.AddScoped<BlogServices>();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -20,10 +29,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-app.MapGet("/blogs", async (BloggingContext context) =>
-{
-    return  await context.Blogs.ToListAsync();
-})
+app.MapGet("/blogs", async (BlogServices service) => await service.GetBlogs())
 .WithName("GetBlogs")
 .WithOpenApi();
 
