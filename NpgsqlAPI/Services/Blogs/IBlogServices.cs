@@ -1,6 +1,6 @@
 using NpgsqlAPI.Models;
 
-namespace NpgsqlAPI.API;
+namespace NpgsqlAPI.Services.Blogs;
 public interface IBlogServices
 {
     Task<IEnumerable<Blog>> GetList();

@@ -1,8 +1,7 @@
 using System.Data;
-using System.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Npgsql;
-using NpgsqlAPI.API;
+using NpgsqlAPI.Services.Blogs;
 using NpgsqlAPI.Data;
 using NpgsqlAPI.Models;
 

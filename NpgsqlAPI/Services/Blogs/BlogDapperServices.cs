@@ -4,7 +4,7 @@ using Dapper;
 using NpgsqlAPI.Data;
 using NpgsqlAPI.Models;
 
-namespace NpgsqlAPI.API;
+namespace NpgsqlAPI.Services.Blogs;
 public sealed class BlogDapperServices : IBlogServices
 {
     private readonly IDbConnection _dbConnection;

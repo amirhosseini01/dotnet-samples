@@ -5,3 +5,9 @@ packages
 migration commands
     dotnet ef migrations add Init
     dotnet ef database update
+
+urls
+    adminer
+        http://localhost:8080/
+    pgAdmin
+        http://localhost:5050/
