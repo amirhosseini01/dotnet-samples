@@ -17,7 +17,8 @@ builder.Services.AddDbContext<BloggingContext>(options =>
 
 builder.Services.AddTransient<IDbConnection>(_ => new NpgsqlConnection(connectionString));
 
-builder.Services.AddScoped<IBlogServices, BlogDapperServices>();
+// builder.Services.AddScoped<IBlogServices, BlogDapperServices>();
+builder.Services.AddScoped<IBlogServices, BlogEFRawQueryServices>();
 
 var app = builder.Build();
 

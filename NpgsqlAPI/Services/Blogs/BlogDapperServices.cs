@@ -1,7 +1,6 @@
 using System.Data;
 using System.Text;
 using Dapper;
-using NpgsqlAPI.Data;
 using NpgsqlAPI.Models;
 
 namespace NpgsqlAPI.Services.Blogs;
