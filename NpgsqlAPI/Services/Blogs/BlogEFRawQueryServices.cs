@@ -18,19 +18,25 @@ public sealed class BlogEFRawQueryServices : IBlogServices
         sb.AppendLine($"INSERT INTO \"Blogs\"(\"{nameof(Blog.Url)}\")");
         sb.AppendLine("VALUES ({0})");
 
-        return (uint) await _context.Database
-        .ExecuteSqlRawAsync(sb.ToString(),  obj.Url! );
+        return (uint)await _context.Database
+        .ExecuteSqlRawAsync(sb.ToString(), obj.Url!);
     }
 
     public async Task AddRange(Blog[] obj)
     {
-        // StringBuilder sb = new();
-        // sb.AppendLine("INSERT INTO \"Blogs\"");
-        // sb.AppendLine($"(\"{nameof(Blog.Url)}\")");
-        // sb.AppendLine("VALUES (@url)");
+        StringBuilder sb = new();
+        sb.AppendLine("INSERT INTO \"Blogs\"");
+        sb.AppendLine($"(\"{nameof(Blog.Url)}\")");
+        sb.AppendLine("VALUES");
+        int i;
+        for (i = 0; i < obj.Length - 1; i++)
+        {
+            sb.AppendFormat("({{{0}}}),", i);
+        }
+        sb.AppendFormat("({{{0}}})", i++);
 
-        // await _dbConnection
-        // .ExecuteAsync(sb.ToString(), obj);
+        await _context.Database
+        .ExecuteSqlRawAsync(sb.ToString(), obj.Select(x => x.Url!));
     }
 
     public async Task<Blog> Get(uint id)
