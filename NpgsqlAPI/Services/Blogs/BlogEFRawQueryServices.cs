@@ -39,52 +39,55 @@ public sealed class BlogEFRawQueryServices : IBlogServices
         .ExecuteSqlRawAsync(sb.ToString(), obj.Select(x => x.Url!));
     }
 
-    public async Task<Blog> Get(uint id)
+    public async Task<Blog?> Get(uint id)
     {
-        return null;
-        // StringBuilder sb = new();
-        // sb.AppendLine("SELECT * FROM \"Blogs\" ");
-        // sb.AppendLine($"WHERE \"{nameof(Blog.BlogId)}\" = @blogId");
+        StringBuilder sb = new();
+        sb.AppendLine("SELECT * FROM \"Blogs\" ");
+        sb.AppendLine($"WHERE \"{nameof(Blog.BlogId)}\" = {{0}}");
 
-        // return await _dbConnection
-        // .QueryFirstOrDefaultAsync<Blog>(sb.ToString(), new { blogId = (int)id });
+        return await _context.Blogs
+        .FromSqlRaw(sb.ToString(), (int)id ).FirstOrDefaultAsync();
     }
 
     public async Task<IEnumerable<Blog>> GetList()
     {
-        return null;
-        // return await _dbConnection.QueryAsync<Blog>("SELECT * FROM \"Blogs\"");
+        return await _context.Blogs.FromSqlRaw("SELECT * FROM \"Blogs\"").ToListAsync();
     }
 
     public async Task Remove(uint id)
     {
-        // StringBuilder sb = new();
-        // sb.AppendLine("DELETE FROM \"Blogs\" ");
-        // sb.AppendLine($"WHERE \"{nameof(Blog.BlogId)}\" = @blogId");
-
-        // await _dbConnection
-        // .ExecuteAsync(sb.ToString(), new { blogId = (int)id });
+        StringBuilder sb = new();
+        sb.AppendLine("DELETE FROM \"Blogs\" ");
+        sb.AppendLine($"WHERE \"{nameof(Blog.BlogId)}\" = {{0}}");
+        await _context.Database
+        .ExecuteSqlRawAsync(sb.ToString(), (int)id );
     }
 
     public async Task Update(Blog obj)
     {
-        // StringBuilder sb = new();
-        // sb.AppendLine("UPDATE \"Blogs\"");
-        // sb.AppendLine($"SET \"{nameof(Blog.Url)}\" = @blogUrl");
-        // sb.AppendLine($"WHERE \"{nameof(Blog.BlogId)}\" = @blogId");
+        StringBuilder sb = new();
+        sb.AppendLine("UPDATE \"Blogs\"");
+        sb.AppendLine($"SET \"{nameof(Blog.Url)}\" = {{1}}");
+        sb.AppendLine($"WHERE \"{nameof(Blog.BlogId)}\" = {{0}}");
 
-        // await _dbConnection
-        // .ExecuteAsync(sb.ToString(), new { blogId = obj.BlogId, blogUrl = obj.Url });
+        await _context.Database
+        .ExecuteSqlRawAsync(sb.ToString(), obj.BlogId, obj.Url!);
     }
 
     public async Task UpdateRange(Blog[] obj)
     {
+        throw new NotImplementedException();
+        //todo: complete this section
         // StringBuilder sb = new();
-        // sb.AppendLine("UPDATE \"Blogs\"");
-        // sb.AppendLine($"SET \"{nameof(Blog.Url)}\" = @url");
-        // sb.AppendLine($"WHERE \"{nameof(Blog.BlogId)}\" = @blogId");
 
-        // await _dbConnection
-        // .ExecuteAsync(sb.ToString(), obj);
+        // for (int i = 0; i < obj.Length; i++)
+        // {
+        //     sb.AppendLine("UPDATE \"Blogs\"");
+        //     sb.AppendFormat($"SET \"{nameof(Blog.Url)}\" = {{{0,i}}}");
+        //     sb.AppendFormat($"WHERE \"{nameof(Blog.BlogId)}\" = {{1}}{{{i}}}");
+        // }
+
+        // await _context.Database
+        // .ExecuteSqlInterpolatedAsync(sb.ToString());
     }
 }

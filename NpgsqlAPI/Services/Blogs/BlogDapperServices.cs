@@ -34,7 +34,7 @@ public sealed class BlogDapperServices : IBlogServices
         .ExecuteAsync(sb.ToString(), obj);
     }
 
-    public async Task<Blog> Get(uint id)
+    public async Task<Blog?> Get(uint id)
     {
         StringBuilder sb = new();
         sb.AppendLine("SELECT * FROM \"Blogs\" ");
