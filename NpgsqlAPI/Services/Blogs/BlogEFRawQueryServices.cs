@@ -1,5 +1,6 @@
 using System.Text;
 using Microsoft.EntityFrameworkCore;
+using Npgsql;
 using NpgsqlAPI.Data;
 using NpgsqlAPI.Models;
 
@@ -46,7 +47,7 @@ public sealed class BlogEFRawQueryServices : IBlogServices
         sb.AppendLine($"WHERE \"{nameof(Blog.BlogId)}\" = {{0}}");
 
         return await _context.Blogs
-        .FromSqlRaw(sb.ToString(), (int)id ).FirstOrDefaultAsync();
+        .FromSqlRaw(sb.ToString(), (int)id).FirstOrDefaultAsync();
     }
 
     public async Task<IEnumerable<Blog>> GetList()
@@ -60,7 +61,7 @@ public sealed class BlogEFRawQueryServices : IBlogServices
         sb.AppendLine("DELETE FROM \"Blogs\" ");
         sb.AppendLine($"WHERE \"{nameof(Blog.BlogId)}\" = {{0}}");
         await _context.Database
-        .ExecuteSqlRawAsync(sb.ToString(), (int)id );
+        .ExecuteSqlRawAsync(sb.ToString(), (int)id);
     }
 
     public async Task Update(Blog obj)
@@ -76,18 +77,19 @@ public sealed class BlogEFRawQueryServices : IBlogServices
 
     public async Task UpdateRange(Blog[] obj)
     {
-        throw new NotImplementedException();
-        //todo: complete this section
-        // StringBuilder sb = new();
+        StringBuilder sb = new();
+        List<NpgsqlParameter> sqlParameters = new();
 
-        // for (int i = 0; i < obj.Length; i++)
-        // {
-        //     sb.AppendLine("UPDATE \"Blogs\"");
-        //     sb.AppendFormat($"SET \"{nameof(Blog.Url)}\" = {{{0,i}}}");
-        //     sb.AppendFormat($"WHERE \"{nameof(Blog.BlogId)}\" = {{1}}{{{i}}}");
-        // }
+        for (int i = 0; i < obj.Length; i++)
+        {
+            sqlParameters.Add(new NpgsqlParameter($"url{i}", obj[i].Url));
+            sqlParameters.Add(new NpgsqlParameter($"blogId{i}", obj[i].BlogId));
+            sb.AppendLine(" UPDATE \"Blogs\"");
+            sb.AppendFormat($"SET \"{nameof(Blog.Url)}\" = @url{i}");
+            sb.AppendFormat($" WHERE \"{nameof(Blog.BlogId)}\" = @blogId{i};");
+        }
 
-        // await _context.Database
-        // .ExecuteSqlInterpolatedAsync(sb.ToString());
+        await _context.Database
+        .ExecuteSqlRawAsync(sb.ToString(), sqlParameters);
     }
 }
