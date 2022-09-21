@@ -26,18 +26,21 @@ public sealed class BlogEFRawQueryServices : IBlogServices
     public async Task AddRange(Blog[] obj)
     {
         StringBuilder sb = new();
+        List<NpgsqlParameter> sqlParameters = new();
+
         sb.AppendLine("INSERT INTO \"Blogs\"");
         sb.AppendLine($"(\"{nameof(Blog.Url)}\")");
         sb.AppendLine("VALUES");
-        int i;
-        for (i = 0; i < obj.Length - 1; i++)
+        for (int i = 0; i < obj.Length -1; i++)
         {
-            sb.AppendFormat("({{{0}}}),", i);
+            sqlParameters.Add(new NpgsqlParameter($"url{i}", obj[i].Url));
+            sb.AppendFormat($"(@url{i}),");
         }
-        sb.AppendFormat("({{{0}}})", i++);
+        sqlParameters.Add(new NpgsqlParameter($"url{obj.Length}", obj.Last().Url));
+        sb.AppendFormat($"(@url{obj.Length})");
 
         await _context.Database
-        .ExecuteSqlRawAsync(sb.ToString(), obj.Select(x => x.Url!));
+        .ExecuteSqlRawAsync(sb.ToString(), sqlParameters);
     }
 
     public async Task<Blog?> Get(uint id)
