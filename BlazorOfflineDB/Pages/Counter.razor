@@ -1,4 +1,5 @@
 ﻿@page "/counter"
+@inject IBlazorDbFactory _dbFactory
 
 <PageTitle>Counter</PageTitle>
 
@@ -11,8 +12,14 @@
 @code {
     private int currentCount = 0;
 
-    private void IncrementCount()
+    private async Task IncrementCount()
     {
         currentCount++;
+        var manager = await _dbFactory.GetDbManager("Test");
+        await manager.AddRecord(new StoreRecord<object>()
+        {
+            StoreName = "Person",
+            Record = new { Name = "MyName", Age = 20 }
+        });
     }
 }
