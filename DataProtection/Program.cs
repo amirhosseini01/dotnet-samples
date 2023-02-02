@@ -1,3 +1,6 @@
+using Microsoft.AspNetCore.DataProtection;
+using Microsoft.AspNetCore.DataProtection.KeyManagement;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -8,6 +11,15 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddDataProtection();
+
+// if need dependency injection for xm
+/*
+builder.Services.AddOptions<KeyManagementOptions>()
+    .Configure<IServiceScopeFactory>((options, factory) =>
+    {
+        options.XmlRepository = new CustomXmlRepository(factory);
+    });
+*/
 
 var app = builder.Build();
 
