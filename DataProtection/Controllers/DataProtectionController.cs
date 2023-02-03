@@ -5,11 +5,11 @@ namespace DataProtection.Controllers;
 
 [ApiController]
 [Route("[controller]")]
-public class TestController : ControllerBase
+public class DataProtectionController : ControllerBase
 {
     private readonly IDataProtector _protector;
-    private const string _purpose = nameof(TestController);
-    public TestController(IDataProtectionProvider provider)
+    private const string _purpose = nameof(DataProtectionController);
+    public DataProtectionController(IDataProtectionProvider provider)
     {
         _protector = GetProtector(provider: provider, purpose: _purpose);
     }
@@ -41,19 +41,19 @@ public class TestController : ControllerBase
         return _protector.Unprotect(protectedText);
     }
 
-    [HttpGet("UnProtectInput/{protectedText}/{provider}")]
+    [HttpGet("UnProtectInput/{protectedText}/{purpose}")]
     public string UnProtectInput([FromServices] IDataProtectionProvider protectionProvider,
-         string protectedText, string provider)
+         string protectedText, string purpose)
     {
-        var myProtector = GetProtector(provider: protectionProvider, purpose: provider);
+        var myProtector = GetProtector(provider: protectionProvider, purpose: purpose);
         return myProtector.Unprotect(protectedText);
     }
 
-    [HttpGet("ProtectInput/{UnprotectedText}/{provider}")]
+    [HttpGet("ProtectInput/{unprotectedText}/{purpose}")]
     public string ProtectInput([FromServices] IDataProtectionProvider protectionProvider,
-         string UnprotectedText, string provider)
+         string unprotectedText, string purpose)
     {
-        var myProtector = GetProtector(provider: protectionProvider, purpose: provider);
-        return myProtector.Protect(UnprotectedText);
+        var myProtector = GetProtector(provider: protectionProvider, purpose: purpose);
+        return myProtector.Protect(unprotectedText);
     }
 }
