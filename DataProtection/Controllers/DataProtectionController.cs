@@ -76,4 +76,30 @@ public class DataProtectionController : ControllerBase
 
         return hashed;
     }
+
+    [HttpGet("ProtectWithLifeTime/{purpose}/{input}/{expireSecond}")]
+    public Dictionary<string, string> ProtectWithLifeTime([FromServices] IDataProtectionProvider protectionProvider,
+        string purpose, string input, int expireSecond = 5)
+    {
+        var timeLimitedProtector = protectionProvider.CreateProtector(purpose: purpose).ToTimeLimitedDataProtector();
+
+        string protectedData = timeLimitedProtector.Protect(input, lifetime: TimeSpan.FromSeconds(expireSecond));
+        string roundTripped = timeLimitedProtector.Unprotect(protectedData);
+
+        return new Dictionary<string, string>()
+        {
+            {"protected shape: ", protectedData},
+            {"un-protected shape: ", roundTripped},
+            {$"expire after {expireSecond} second: ", $"try it after {expireSecond} seconds."}
+        };
+    }
+
+    [HttpGet("ProtectWithLifeTime/{purpose}/{protectedData}")]
+    public string UnProtectWithLifeTime([FromServices] IDataProtectionProvider protectionProvider,
+        string purpose, string protectedData)
+    {
+        var timeLimitedProtector = protectionProvider.CreateProtector(purpose: purpose).ToTimeLimitedDataProtector();
+
+        return timeLimitedProtector.Unprotect(protectedData);
+    }
 }
