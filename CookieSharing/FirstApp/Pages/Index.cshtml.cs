@@ -14,6 +14,8 @@ public class IndexModel : PageModel
 
     public void OnGet()
     {
-
+        //todo: Read the cookie name from const string variable
+        //todo: use DataProtection for cookie value
+        Response.Cookies.Append(".AspNet.SharedCookie", "hello_world");
     }
 }

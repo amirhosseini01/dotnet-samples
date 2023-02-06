@@ -13,7 +13,7 @@ builder.Services.AddDataProtection()
 builder.Services.ConfigureApplicationCookie(options => {
     options.Cookie.Name = ".AspNet.SharedCookie";
     options.Cookie.Path = "/";
-    options.Cookie.Domain = "";
+    options.Cookie.Domain = "localhost";
 });
 
 var app = builder.Build();
