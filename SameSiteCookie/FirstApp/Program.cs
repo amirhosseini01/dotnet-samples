@@ -1,27 +1,17 @@
+using FirstApp;
+
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.Configure<CookiePolicyOptions>(options =>
 {
     options.MinimumSameSitePolicy = SameSiteMode.Unspecified;
+
     options.OnAppendCookie = cookieContext =>
-        CheckSameSite(cookieContext.Context, cookieContext.CookieOptions);
+        MyUserAgentDetectionLib.CheckSameSite(cookieContext.Context, cookieContext.CookieOptions);
+
     options.OnDeleteCookie = cookieContext =>
-        CheckSameSite(cookieContext.Context, cookieContext.CookieOptions);
+        MyUserAgentDetectionLib.CheckSameSite(cookieContext.Context, cookieContext.CookieOptions);
 });
-
-void CheckSameSite(HttpContext httpContext, CookieOptions options)
-{
-    if (options.SameSite == SameSiteMode.None)
-    {
-        var userAgent = httpContext.Request.Headers["User-Agent"].ToString();
-        if (MyUserAgentDetectionLib.DisallowsSameSiteNone(userAgent))
-        {
-            options.SameSite = SameSiteMode.Unspecified;
-        }
-    }
-}
-
-
 
 // Add services to the container.
 builder.Services.AddRazorPages();
