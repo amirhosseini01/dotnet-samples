@@ -1,4 +1,10 @@
+using RepoDb;
+
 var builder = WebApplication.CreateBuilder(args);
+
+GlobalConfiguration
+	.Setup()
+	.UseSqlServer();
 
 // Add services to the container.
 
