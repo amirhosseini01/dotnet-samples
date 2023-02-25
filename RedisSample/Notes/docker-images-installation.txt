@@ -1,0 +1,7 @@
+docker images installation
+
+# up image: 
+
+$ docker run --name some-redis -d redis redis-server --save 60 1 --loglevel warning
+
+(this one will save a snapshot of the DB every 60 seconds if at least 1 write operation was performed )
