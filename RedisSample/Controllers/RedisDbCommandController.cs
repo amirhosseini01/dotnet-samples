@@ -7,10 +7,13 @@ namespace RedisSample.Controllers;
 [Route("[controller]")]
 public class RedisDbCommandController : ControllerBase
 {
-    private readonly RedisService _redisService;
-    public RedisDbCommandController(RedisService redisService)
+    private readonly RedisCommandService _redisService;
+    private readonly RedisBusService _redisBusService;
+    public RedisDbCommandController(RedisCommandService redisService,
+        RedisBusService redisBusService)
     {
         _redisService = redisService;
+        _redisBusService = redisBusService;
     }
 
     [HttpGet(nameof(SetItem))]
@@ -29,5 +32,13 @@ public class RedisDbCommandController : ControllerBase
         }
 
         return Ok(item);
+    }
+
+    [HttpGet(nameof(PublishMessage))]
+    public async Task<IActionResult> PublishMessage(string message = "myMessage")
+    {
+        await _redisBusService.PublishToChannel("myChannel", message);
+
+        return Ok();
     }
 }

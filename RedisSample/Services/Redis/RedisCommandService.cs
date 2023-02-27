@@ -2,10 +2,10 @@ using StackExchange.Redis;
 
 namespace RedisSample.Services.Redis;
 
-public class RedisService
+public class RedisCommandService
 {
     private readonly IDatabase _db;
-    public RedisService(RedisConnectionFactory redisConnectionFactory)
+    public RedisCommandService(RedisConnectionFactory redisConnectionFactory)
     {
         _db = redisConnectionFactory.ConnectionMultiplexer.GetDatabase();
     }
