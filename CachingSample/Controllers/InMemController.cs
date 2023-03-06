@@ -1,5 +1,6 @@
 using CachingSample.MemService;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.OutputCaching;
 
 namespace CachingSample.Controllers;
 
@@ -43,5 +44,19 @@ public class InMemController : ControllerBase
               cacheSize: cacheSize);
 
         return Ok();
+    }
+
+    [HttpGet(nameof(TestOutputCache))]
+    [OutputCache]
+    public ActionResult TestOutputCache()
+    {
+        return Ok(DateTime.Now);
+    }
+
+    [HttpGet(nameof(TestResponseCache))]
+    [ResponseCache(Duration = 10)]
+    public ActionResult TestResponseCache()
+    {
+        return Ok(DateTime.Now);
     }
 }
