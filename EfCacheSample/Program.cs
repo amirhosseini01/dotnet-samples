@@ -1,4 +1,4 @@
-using EfCacheSample.Data;
+using EfCacheSample.Configurations;
 using EFCoreSecondLevelCacheInterceptor;
 using Microsoft.EntityFrameworkCore;
 
@@ -12,7 +12,7 @@ var builder = WebApplication.CreateBuilder(args);
             );
 
             string connectionString = builder.Configuration.GetConnectionString("ApplicationDbContextConnection")!;
-            builder.Services.AddDbContext<MainContext>(x => x.UseSqlServer(connectionString));
+            builder.Services.AddConfiguredMsSqlDbContext(connectionString);
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
