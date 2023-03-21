@@ -1,3 +1,4 @@
+
 using Microsoft.AspNetCore.Mvc;
 using Serilog;
 using Serilog.Sinks.MSSqlServer;
@@ -8,20 +9,17 @@ namespace SerioLogSample.Controllers;
 [Route("[controller]")]
 public class TestController : ControllerBase
 {
-    public TestController()
+    private readonly Serilog.ILogger _logger;
+    public TestController(Serilog.ILogger logger)
     {
+        _logger = logger;
     }
 
     [HttpGet(nameof(TestLog))]
     public async Task<ActionResult> TestLog()
     {
-        Log.Logger = new LoggerConfiguration()
-    .WriteTo
-    .MSSqlServer(
-        connectionString: "Server=localhost,1433;Database=RepoDbSample;User Id=SA;Password=<YourStrong@Passw0rd>;Trusted_Connection=false;Persist Security Info=False;Encrypt=False;Integrated Security=SSPI;",
-        sinkOptions: new MSSqlServerSinkOptions { TableName = "LogEvents" })
-    .CreateLogger();
+        _logger.Information("This is a log inside of the Minimal API endpoint.");
 
-    return Ok();
+        return Ok();
     }
 }
