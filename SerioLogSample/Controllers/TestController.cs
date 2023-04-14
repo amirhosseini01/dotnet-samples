@@ -8,17 +8,16 @@ namespace SerioLogSample.Controllers;
 [ApiController]
 [Route("[controller]")]
 public class TestController : ControllerBase
-{
-    private readonly Serilog.ILogger _logger;
-    public TestController(Serilog.ILogger logger)
+{    public TestController()
     {
-        _logger = logger;
     }
 
     [HttpGet(nameof(TestLog))]
     public async Task<ActionResult> TestLog()
     {
-        _logger.Information("This is a log inside of the Minimal API endpoint.");
+        Log.Information("123");
+        var fruit = new[] { "Apple", "Pear", "Orange" };
+Log.Information("In my bowl I have {Fruit}", fruit);
 
         return Ok();
     }
