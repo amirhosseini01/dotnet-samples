@@ -1,0 +1,37 @@
+CREATE TABLE [Logs] (
+
+   [Id] int IDENTITY(1,1) NOT NULL,
+   [Message] nvarchar(max) NULL,
+   [MessageTemplate] nvarchar(max) NULL,
+   [Level] nvarchar(128) NULL,
+   [TimeStamp] datetime NOT NULL,
+   [Exception] nvarchar(max) NULL,
+   [Properties] nvarchar(max) NULL
+
+   CONSTRAINT [PK_Logs] PRIMARY KEY CLUSTERED ([Id] ASC)
+);
+
+
+
+CREATE ROLE [SerilogAutoCreate];
+GRANT SELECT ON sys.tables TO [SerilogAutoCreate];
+GRANT SELECT ON sys.schemas TO [SerilogAutoCreate];
+GRANT ALTER ON SCHEMA::[dbo] TO [SerilogAutoCreate]
+GRANT CREATE TABLE ON DATABASE::[SerilogTest] TO [SerilogAutoCreate];
+
+CREATE ROLE [SerilogWriter];
+GRANT SELECT TO [SerilogWriter];
+GRANT INSERT TO [SerilogWriter];
+
+CREATE LOGIN [Serilog] WITH PASSWORD = 'password';
+
+CREATE USER [Serilog] FOR LOGIN [Serilog] WITH DEFAULT_SCHEMA = dbo;
+GRANT CONNECT TO [Serilog];
+
+ALTER ROLE [SerilogAutoCreate] ADD MEMBER [Serilog];
+ALTER ROLE [SerilogWriter] ADD MEMBER [Serilog];
+
+
+
+GRANT SELECT ON [dbo].[SecuredLog] TO [SerilogWriter];
+GRANT INSERT ON [dbo].[SecuredLog] TO [SerilogWriter];
