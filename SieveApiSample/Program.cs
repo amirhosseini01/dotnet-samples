@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using Sieve.Services;
 using SieveApiSample.Data;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -6,6 +7,8 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddDbContext<ApplicationContext>(options =>
                 options.UseInMemoryDatabase(databaseName: "TestDb"));
+
+builder.Services.AddScoped<SieveProcessor>();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

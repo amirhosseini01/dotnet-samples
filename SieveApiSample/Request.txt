@@ -1,0 +1,7 @@
+post - http://localhost:5085/Test/GetPosts
+{
+	 "filters": "LikeCount>300,Title@=post E",
+  "sorts": "LikeCount,CommentCount,-created",
+  "page": 1,
+  "pageSize": 5
+}

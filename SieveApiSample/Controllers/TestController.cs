@@ -19,7 +19,7 @@ public class TestController : ControllerBase
         _context = context;
     }
 
-    [HttpGet(nameof(GetPosts))]
+    [HttpPost(nameof(GetPosts))]
     public IActionResult GetPosts(SieveModel sieveModel)
     {
         var query = _context.Posts.AsNoTracking(); // Makes read-only queries faster
