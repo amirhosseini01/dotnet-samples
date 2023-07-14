@@ -1,12 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using Microsoft.AspNetCore.Identity;
 
-namespace Site.Models;
+namespace Site.ViewModels.Books;
 
-public class Book
+public class VmBookInput
 {
-    [Key]
     public int Id { get; set; }
     
     [Required]
@@ -18,7 +15,4 @@ public class Book
     public string Title { get; set; } = string.Empty;
     
     public DateTime ReleaseDate { get; set; }
-
-    [ForeignKey(nameof(UserId))]
-    public virtual IdentityUser User { get; set; } = null!;
 }
