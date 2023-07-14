@@ -1,0 +1,10 @@
+// list of commands for create new project lik this
+// https://learn.microsoft.com/en-us/aspnet/core/security/authentication/identity?view=aspnetcore-7.0&tabs=netcore-cli
+
+dotnet new webapp --auth Individual -uld -o WebApp1
+dotnet tool install --global dotnet-ef
+dotnet ef database update
+dotnet add package Microsoft.VisualStudio.Web.CodeGeneration.Design
+dotnet aspnet-codegenerator identity -dc WebApp1.Data.ApplicationDbContext --files "Account.Register;Account.Login;Account.Logout;Account.RegisterConfirmation"
+dotnet tool install -g dotnet-aspnet-codegenerator
+dotnet aspnet-codegenerator identity -dc WebApp1.Data.ApplicationDbContext --files "Account.Register;Account.Login;Account.Logout;Account.RegisterConfirmation"
