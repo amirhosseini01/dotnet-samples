@@ -1,12 +1,11 @@
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Site.Data;
 
-namespace SiteTest.Mocks.DataBase;
+namespace SiteTest.TestingTools.Mocks.DataBase;
 
 public class TestDatabaseFixture
 {
-    private const string ConnectionString = "Server=ServerAddress;Database=DbName;Trusted_Connection=True;TrustServerCertificate=True;";
-
     private static readonly object _lock = new();
     private static bool _databaseInitialized;
 
@@ -30,10 +29,16 @@ public class TestDatabaseFixture
     }
 
     public ApplicationDbContext CreateContext()
-        => new(
+    {
+        var config = new ConfigurationBuilder()
+            .AddJsonFile("appsettings.Development.json")
+            .Build();
+        var connectionString = config.GetSection("ConnectionStrings:DefaultConnection").Value;
+        return new(
             new DbContextOptionsBuilder<ApplicationDbContext>()
-                .UseSqlServer(ConnectionString)
+                .UseSqlServer(connectionString)
                 // .UseInMemoryDatabase("SiteTest")
                 // .ConfigureWarnings(b => b.Ignore(InMemoryEventId.TransactionIgnoredWarning))
                 .Options);
+    }
 }

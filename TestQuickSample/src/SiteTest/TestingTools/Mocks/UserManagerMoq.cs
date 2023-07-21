@@ -1,9 +1,9 @@
 ﻿using System.Security.Claims;
 using Microsoft.AspNetCore.Identity;
 using Moq;
-using SiteTest.Constants;
+using SiteTest.TestingTools.Constants;
 
-namespace SiteTest.Mocks;
+namespace SiteTest.TestingTools.Mocks;
 
 public static class UserManagerMoq
 {

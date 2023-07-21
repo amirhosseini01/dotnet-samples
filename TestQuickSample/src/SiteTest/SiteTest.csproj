@@ -27,4 +27,8 @@
     <ProjectReference Include="..\Site\Site.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="TestingTools" />
+  </ItemGroup>
+
 </Project>

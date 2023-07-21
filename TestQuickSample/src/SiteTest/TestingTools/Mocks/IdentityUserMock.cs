@@ -2,7 +2,7 @@ using System.Security.Claims;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace SiteTest.Mocks;
+namespace SiteTest.TestingTools.Mocks;
 
 public static class IdentityUserMock
 {

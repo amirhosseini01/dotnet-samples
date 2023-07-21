@@ -1,7 +1,7 @@
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 
-namespace SiteTest.Mocks;
+namespace SiteTest.TestingTools.Mocks;
 
 public class MoqAuthorizationService : IAuthorizationService
 {

@@ -1,4 +1,4 @@
-﻿namespace SiteTest.Constants;
+﻿namespace SiteTest.TestingTools.Constants;
 
 public static class CustomIdentityConstants
 {
