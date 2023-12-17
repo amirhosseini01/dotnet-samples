@@ -1,0 +1,38 @@
+version: '3'
+
+services:
+  postgres:
+    image: postgres
+    container_name: sentry-postgres
+    environment:
+      - POSTGRES_DB=sentry
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+
+  redis:
+    image: redis:6
+    container_name: sentry-redis
+
+  sentry:
+    image: sentry:latest
+    container_name: sentry
+    depends_on:
+      - postgres
+      - redis
+    environment:
+      - SENTRY_SECRET_KEY=d4792e3dbb0c4795b94af3c9f3e104f2246c5d8a15526d3fe6f15f3cb1a49e27
+      - SENTRY_POSTGRES_HOST=postgres
+      - SENTRY_DB_USER=postgres
+      - SENTRY_DB_PASSWORD=postgres
+      - SENTRY_REDIS_HOST=redis
+    ports:
+      - "9000:9000"
+      - "8080:8080"
+    volumes:
+      - sentry-data:/var/lib/sentry/files
+
+volumes:
+  postgres-data:
+  sentry-data:

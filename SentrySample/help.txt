@@ -1,0 +1,23 @@
+if docker compose up -d command not work, then follow below commands step by step:
+
+docker-compose down
+
+docker volume rm sentry-data postgres-data
+
+docker-compose up -d
+
+docker-compose logs sentry
+(check for any err)
+
+(wait few minute)
+
+docker exec -it sentry bash
+
+sentry upgrade
+(run migration)
+
+exit
+
+docker-compose restart sentry
+
+docker-compose logs sentry
